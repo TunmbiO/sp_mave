@@ -1,0 +1,63 @@
+# California housing (real MedHouseVal). Appendix-style sanity check.
+# Outputs: results/mave/housing/california_housing/
+
+dataset:
+  name: california_housing
+  max_samples: 3000
+  random_state: 42
+
+model:
+  d: 3
+  bandwidth: auto
+  k: 20
+  tau: 0.5
+  max_iters: 100
+  tol: 1.0e-6
+  ridge_lambda: 0.01
+  init_method: pca
+  random_state: 42
+
+random_forest:
+  n_estimators: 200
+  max_depth: null
+  min_samples_leaf: 5
+  max_features: sqrt
+  random_state: 42
+
+crossfit:
+  n_splits: 5
+  shuffle: true
+  random_state: 42
+
+evaluation:
+  downstream_models:
+    - linear
+    - random_forest
+  save_figures: true
+
+split:
+  test_size: 0.3
+  random_state: 42
+
+methods:
+  - classical_mave
+  - classical_mave_topk
+  - sp_mave
+
+tuning:
+  enabled: true
+  val_size: 0.2
+  k_candidates: [10, 15, 20, 25, 30, 40]
+  tau_candidates: [0.5, 1.0, 2.0]
+  random_state: 42
+  max_iters: 40
+  matched_k_for_classical_topk: true
+
+multi_seed:
+  enabled: true
+  n_seeds: 10
+
+experiment:
+  results_track: housing
+  results_slug: california_housing
+  paper_plots: true

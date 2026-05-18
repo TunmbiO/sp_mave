@@ -1,0 +1,55 @@
+# Sanity study — compare methods at 0 vs 20 noise features.
+# This file is consumed by run_sanity_study.py, which overrides n_noise.
+
+dataset:
+  name: friedman1
+  n_samples: 100
+  random_state: 42
+
+model:
+  d: 5
+  bandwidth: auto
+  k: 20
+  tau: 0.1
+  max_iters: 50
+  tol: 1.0e-6
+  ridge_lambda: 0.01
+  init_method: pca
+  random_state: 42
+
+random_forest:
+  n_estimators: 500
+  max_depth: null
+  min_samples_leaf: 5
+  max_features: sqrt
+  random_state: 42
+
+crossfit:
+  n_splits: 5
+  shuffle: true
+  random_state: 42
+
+evaluation:
+  downstream_model: linear
+  metrics:
+    - projection_distance
+    - grassmann_distance
+    - vector_correlation
+    - test_mse
+  save_figures: true
+
+split:
+  test_size: 0.3
+  random_state: 42
+
+methods:
+  - classical_mave
+  - sp_mave
+
+tuning:
+  enabled: false
+
+sanity_study:
+  noise_levels:
+    - 0
+    - 20

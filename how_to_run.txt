@@ -1,0 +1,344 @@
+================================================================================
+HOW TO RUN SP-MAVE
+================================================================================
+
+PREREQUISITES
+-------------
+Python >= 3.10
+
+1.  Create and activate a virtual environment (recommended):
+
+        python3 -m venv .venv
+        source .venv/bin/activate
+
+2.  Install dependencies:
+
+        pip install -r requirements.txt
+
+
+================================================================================
+QUICK START  (development mode, fixed k and tau)
+================================================================================
+
+    python run_experiment.py --config configs/friedman_dev.yaml
+
+This runs Classical MAVE and SP-MAVE with a small forest (100 trees,
+3-fold cross-fitting) and fixed k=15, tau=0.1.  Takes ~1-2 seconds.
+
+
+================================================================================
+FULL EXPERIMENT  (validation-tuned k and tau)
+================================================================================
+
+    python run_experiment.py --config configs/friedman_final.yaml
+
+This runs:
+  - Classical MAVE  (full Gaussian kernel, all neighbours)
+  - Classical MAVE  (top-k truncated Gaussian kernel)
+  - SP-MAVE         (RF proximity, cross-fitted, top-k + softmax)
+
+Before fitting SP-MAVE, the pipeline automatically tunes k and tau
+using a held-out validation split (20% of training data):
+  - k is searched over:   [10, 15, 20, 25, 30, 40]
+  - tau is searched over:  [0.5, 1.0, 2.0]  (see tuning: in the YAML)
+  - The pair with lowest validation MSE is selected.
+  - SP-MAVE is then refit on the full training set with those values.
+
+Takes ~10-30 seconds depending on hardware.
+
+
+================================================================================
+SANITY STUDY  (0 vs 20 noise features)
+================================================================================
+
+    python run_sanity_study.py --config configs/sanity_noise_study.yaml
+
+Runs the experiment at two noise levels (0 and 20 added noise features)
+to check whether SP-MAVE's advantage grows with irrelevant dimensions.
+
+
+================================================================================
+NOISE DIMENSION SCALING  (Friedman-1, full sweep)
+================================================================================
+
+This is a separate driver from run_experiment.py.  It varies only the
+number of appended irrelevant U(0,1) features (p = 5 + n_noise); sample
+size and the five informative Friedman dimensions stay fixed.  For each
+noise level and random seed it runs the same methods, tuning, and
+evaluation as the main pipeline (via run_single_seed internally).
+
+    python run_noise_scaling_experiment.py --config configs/friedman_noise_scaling.yaml
+
+The default --config is configs/friedman_noise_scaling.yaml if you omit it.
+
+Do not use run_experiment.py with configs/friedman_noise_scaling.yaml for
+this study: run_experiment.py ignores the noise_scaling_experiment block
+and would only run a single dataset (the base n_noise in dataset:).
+
+Grid and replication are controlled under noise_scaling_experiment: in the
+YAML, for example:
+
+    noise_scaling_experiment:
+      noise_dims: [0, 10, 20, 40, 80, 120]
+      n_seeds: 10
+
+The base config also sets methods:, tuning:, model:, etc.; those apply to
+every (noise_dims, seed) cell.  multi_seed in the YAML is typically off
+here because the sweep script drives seeds itself.
+
+Outputs go under results/friedman_noise_scaling/ (see OUTPUTS below).
+Runtime grows with len(noise_dims) * n_seeds and is much longer than a
+single run_experiment.py pass.
+
+
+================================================================================
+MAVE PAPER TRACKS  (semi-synthetic, energy, housing)
+================================================================================
+
+Three config-driven studies write under results/mave/<track>/<slug>/ with
+subfolders tables/, figures/, summaries/, logs/, configs/ (YAML snapshot).
+
+Configs:
+  configs/mave_semi_synthetic_california.yaml   Semi-synthetic y on real X
+  configs/mave_energy_ccpp.yaml               UCI Combined Cycle Power Plant
+  configs/mave_housing_california.yaml        California housing (real y)
+
+Run all three and aggregate results/mave/master_summary.csv:
+
+    python run_mave_tracks.py
+    python run_mave_tracks.py --quick        # 1 seed, small forest (smoke)
+
+Or one config:
+
+    python run_experiment.py --config configs/mave_energy_ccpp.yaml
+
+YAML keys:
+  experiment.results_track    e.g. semi_synthetic, energy, housing
+  experiment.results_slug     subfolder name under the track
+  experiment.paper_plots      bar plots for test MSE (and subspace if known)
+
+Semi-synthetic construction (train-only scaling, then y = g(Z)+noise) is
+documented in sp_mave/preprocessing.py and sp_mave/semisynthetic.py.
+Use model.d equal to dataset d_true.  Dense (n×n) weight matrices require
+dataset max_samples caps — document in papers.
+
+CSV column method_paper maps internal names to ClassicalMAVE,
+ClassicalMAVE_kNN, RFWeightedMAVE.  OPG stays in results/opg/, not mixed
+into these tables.
+
+See docs/mave_paper_experiments.md for datasets, URLs, and limitations.
+
+
+================================================================================
+OPG  (one-step baseline, Friedman-1)
+================================================================================
+
+OPG (outer product of gradients) is implemented in sp_mave/opg.py.  It uses
+the same local-gradient idea as MAVE but a single eigenvector update per fit
+(weights that do not depend on B collapse to one effective iteration).
+
+There are two ways to run it:
+
+
+A) Standalone weight-scheme comparison  (recommended for OPG-only plots)
+
+    python run_opg_experiment.py
+    python run_opg_experiment.py --quick
+
+Runs four estimators on Friedman-1, sweeping the number of irrelevant noise
+features (defaults: 0, 10, 20, 40, 80, 120) and multiple random seeds:
+
+  - GaussianOPG           full Gaussian kernel (self included in each column)
+  - TopKGaussianOPG       top-k Gaussian neighbours (self excluded)
+  - UniformKNNOPG         uniform weights on k nearest neighbours
+  - RFProximityOPG        cross-fitted RF proximities + top-k softmax
+
+Grid constants (noise levels, seeds, k, tau, forest size, d, etc.) live at
+the top of run_opg_experiment.py; edit there to change the study.
+
+Outputs under results/opg/:
+  summary_by_noise.csv      one row per noise_dims × seed × method
+  summary_mean_std.csv      mean ± std per noise_dims × method
+  config_snapshot.json      run metadata
+  experiment.log            log file
+  figures/opg_*.png         metrics vs noise dimensions (+ optional weight plot)
+
+--quick uses a tiny grid (two noise levels, two seeds) for a fast smoke test.
+
+
+B) Inside the main YAML experiment  (run_experiment.py)
+
+Add any of these to methods: in your config (alongside or instead of the
+MAVE methods):
+
+  - opg_classical       OPG with full Gaussian weights (bandwidth from model:)
+  - opg_classical_topk  OPG with Gaussian + top-k (uses model.k)
+  - opg_sp              OPG with RF proximities (uses model.k, model.tau,
+                        random_forest:, crossfit:)
+
+Validation tuning for k and tau is triggered only when sp_mave appears in
+methods:.  If you run opg_sp without sp_mave, k and tau come straight from
+model: in the YAML (no automatic search).
+
+
+================================================================================
+OUTPUTS
+================================================================================
+
+All outputs are written to the results/ directory:
+
+  results/
+    figures/
+      weight_distributions.png       Histograms of nonzero weights
+      raw_proximities_SPMAVE.png     RF proximity distribution before softmax
+      sanity_noise_study.png         Metrics vs noise dimension (sanity study)
+    tables/
+      comparison.csv                 Method comparison table
+    summaries/
+      experiment_summary.json        Full results + config + tuning report
+      sanity_study_summary.json      Sanity study results
+
+  results/friedman_noise_scaling/   (noise scaling driver only)
+    tables/
+      noise_scaling_raw.csv          One row per method × noise_dims × seed
+      noise_scaling_summary.csv      Mean ± std per method × noise_dims
+    summaries/
+      noise_scaling.json             Run metadata + config snapshot
+    figures/
+      noise_scaling_*.png            Curves: metrics vs number of noise features
+
+  results/opg/                      (run_opg_experiment.py only)
+    summary_by_noise.csv             Raw rows: noise × seed × OPG variant
+    summary_mean_std.csv             Aggregated mean ± std
+    config_snapshot.json             Settings + summary snapshot
+    experiment.log
+    figures/
+      opg_*.png                      Noise-scaling curves (and optional histograms)
+
+  results/mave/                     (paper tracks; optional experiment.results_track)
+    master_summary.csv               Optional aggregate from run_mave_tracks.py
+    <track>/<slug>/tables/           multi_seed_raw.csv, multi_seed_summary.csv
+    <track>/<slug>/figures/          paper_*.png plus standard diagnostics
+    <track>/<slug>/summaries/        multi_seed_summary.json
+    <track>/<slug>/configs/          Copy of the YAML used
+
+
+================================================================================
+ADDING A NEW DATASET
+================================================================================
+
+1.  Open sp_mave/datasets.py.
+
+2.  Write a loader function:
+
+        def load_my_data(file_path: str = "data/my_data.csv",
+                         random_state: int = 42,
+                         **_extra) -> DatasetBundle:
+            import pandas as pd
+            df = pd.read_csv(file_path)
+            X = df.drop(columns=["target"]).values
+            y = df["target"].values
+            return DatasetBundle(
+                X=X, y=y,
+                feature_names=list(df.columns.drop("target")),
+                true_subspace=None,
+                metadata={"source": file_path},
+            )
+
+3.  Register it at the bottom of datasets.py:
+
+        REGISTRY["my_data"] = load_my_data
+
+4.  Create a config file  configs/my_data.yaml:
+
+        dataset:
+          name: my_data
+          file_path: data/my_data.csv
+
+        model:
+          d: 3          # adjust as needed
+
+5.  Run:
+
+        python run_experiment.py --config configs/my_data.yaml
+
+
+================================================================================
+CONFIGURATION MODES
+================================================================================
+
+Dev mode (fixed hyperparameters, fast):
+  configs/friedman_dev.yaml
+  tuning.enabled = false
+  Uses whatever k and tau are set under model: in the YAML.
+
+Final mode (validation-tuned hyperparameters):
+  configs/friedman_final.yaml
+  tuning.enabled = true
+  The k and tau under model: are used as the initial/fallback values;
+  the tuner overrides them with the validation-selected values.
+
+Noise-dimension sweep (Friedman-1 only):
+  configs/friedman_noise_scaling.yaml
+  Use run_noise_scaling_experiment.py (see NOISE DIMENSION SCALING above),
+  not run_experiment.py.
+
+OPG Friedman sweep / weight comparison:
+  run_opg_experiment.py (see OPG above).  Hyperparameters and noise grid
+  are in that script, not in a separate YAML.
+
+YAML methods for OPG inside run_experiment.py:
+  opg_classical, opg_classical_topk, opg_sp (see OPG section B).
+
+Paper tracks (semi-synthetic / energy / housing):
+  configs/mave_*.yaml  (see MAVE PAPER TRACKS above)
+
+To tune k only (fix tau):
+  Set tau_candidates to a single-element list, e.g.:
+    tuning:
+      tau_candidates: [0.1]
+      k_candidates: [10, 15, 20, 25, 30, 40]
+
+To tune tau only (fix k):
+  Set k_candidates to a single-element list, e.g.:
+    tuning:
+      k_candidates: [20]
+      tau_candidates: [0.05, 0.1, 0.2, 0.5]
+
+
+================================================================================
+PROXIMITY MATRIX SYMMETRISATION  (optional)
+================================================================================
+
+By default the cross-fitted RF proximity matrix is asymmetric (each
+row comes from the forest that held out that row's fold).  This is the
+principled cross-fitting approach.
+
+To enable symmetrisation ((P + P^T) / 2) as an ablation, add to your
+config under model:
+
+    model:
+      symmetrise_proximities: true
+
+This averages the two directional proximity estimates and can reduce
+variance, but blurs the clean cross-fitting semantics.  See the
+docstring in sp_mave/proximities.py::symmetrise_proximities for a
+detailed discussion.
+
+
+================================================================================
+TROUBLESHOOTING
+================================================================================
+
+"Under-determined local WLS" warning:
+  This fires when k < p+1 (neighbourhood smaller than feature dimension
+  + 1).  The adaptive ridge regularisation handles this automatically.
+  To silence the warning, increase k or reduce d/p.
+
+"No valid k candidates" error during tuning:
+  All k_candidates exceed n_train_inner - 1.  Reduce the k values in
+  tuning.k_candidates or increase n_samples.
+
+Import errors:
+  Make sure you are running from the project root directory
+  (the one containing run_experiment.py).

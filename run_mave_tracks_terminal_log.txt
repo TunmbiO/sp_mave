@@ -1,0 +1,347 @@
+
+
+=== Running configs/mave_semi_synthetic_california.yaml  ->  mave/semi_synthetic/california_housing/ ===
+
+2026-04-08 15:28:06 [INFO] experiment: ============================================================
+2026-04-08 15:28:06 [INFO] experiment: MULTI-SEED EXPERIMENT: semi_synthetic_real_x  (10 seeds)
+2026-04-08 15:28:06 [INFO] experiment: ============================================================
+2026-04-08 15:28:06 [INFO] sp_mave.tuning: Tuning: train_inner=1400  val=350  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:28:07 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1400, 1400))
+2026-04-08 15:28:38 [INFO] sp_mave.tuning: Tuning result: best_k=25  best_tau=2.0000  val_mse=7054.0943
+2026-04-08 15:28:38 [INFO] experiment: Seed 0: tuned SP-MAVE k=25, tau=2.0000 (val_mse=7054.0943)
+2026-04-08 15:28:38 [INFO] experiment: Seed 0: classical top-k k matched to SP-MAVE k=25
+2026-04-08 15:29:06 [INFO] experiment:   Seed  1/10 done in 59.7s
+2026-04-08 15:29:06 [INFO] sp_mave.tuning: Tuning: train_inner=1400  val=350  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:29:07 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1400, 1400))
+2026-04-08 15:29:35 [INFO] sp_mave.tuning: Tuning result: best_k=40  best_tau=2.0000  val_mse=1831.3781
+2026-04-08 15:29:35 [INFO] experiment: Seed 1: tuned SP-MAVE k=40, tau=2.0000 (val_mse=1831.3781)
+2026-04-08 15:29:35 [INFO] experiment: Seed 1: classical top-k k matched to SP-MAVE k=40
+2026-04-08 15:30:05 [INFO] experiment:   Seed  2/10 done in 59.5s
+2026-04-08 15:30:05 [INFO] sp_mave.tuning: Tuning: train_inner=1400  val=350  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:30:06 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1400, 1400))
+2026-04-08 15:30:37 [INFO] sp_mave.tuning: Tuning result: best_k=15  best_tau=0.5000  val_mse=1521.3823
+2026-04-08 15:30:37 [INFO] experiment: Seed 2: tuned SP-MAVE k=15, tau=0.5000 (val_mse=1521.3823)
+2026-04-08 15:30:37 [INFO] experiment: Seed 2: classical top-k k matched to SP-MAVE k=15
+2026-04-08 15:31:08 [INFO] experiment:   Seed  3/10 done in 63.0s
+2026-04-08 15:31:08 [INFO] sp_mave.tuning: Tuning: train_inner=1400  val=350  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:31:09 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1400, 1400))
+2026-04-08 15:31:40 [INFO] sp_mave.tuning: Tuning result: best_k=25  best_tau=2.0000  val_mse=1445.6399
+2026-04-08 15:31:40 [INFO] experiment: Seed 3: tuned SP-MAVE k=25, tau=2.0000 (val_mse=1445.6399)
+2026-04-08 15:31:40 [INFO] experiment: Seed 3: classical top-k k matched to SP-MAVE k=25
+2026-04-08 15:32:01 [INFO] experiment:   Seed  4/10 done in 53.1s
+2026-04-08 15:32:01 [INFO] sp_mave.tuning: Tuning: train_inner=1400  val=350  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:32:02 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1400, 1400))
+2026-04-08 15:32:33 [INFO] sp_mave.tuning: Tuning result: best_k=25  best_tau=2.0000  val_mse=1227.3439
+2026-04-08 15:32:33 [INFO] experiment: Seed 4: tuned SP-MAVE k=25, tau=2.0000 (val_mse=1227.3439)
+2026-04-08 15:32:33 [INFO] experiment: Seed 4: classical top-k k matched to SP-MAVE k=25
+2026-04-08 15:33:00 [INFO] experiment:   Seed  5/10 done in 59.2s
+2026-04-08 15:33:00 [INFO] sp_mave.tuning: Tuning: train_inner=1400  val=350  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:33:02 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1400, 1400))
+2026-04-08 15:33:27 [INFO] sp_mave.tuning: Tuning result: best_k=15  best_tau=2.0000  val_mse=1229.3483
+2026-04-08 15:33:27 [INFO] experiment: Seed 5: tuned SP-MAVE k=15, tau=2.0000 (val_mse=1229.3483)
+2026-04-08 15:33:27 [INFO] experiment: Seed 5: classical top-k k matched to SP-MAVE k=15
+2026-04-08 15:33:39 [INFO] experiment:   Seed  6/10 done in 38.6s
+2026-04-08 15:33:39 [INFO] sp_mave.tuning: Tuning: train_inner=1400  val=350  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:33:40 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1400, 1400))
+2026-04-08 15:34:10 [INFO] sp_mave.tuning: Tuning result: best_k=40  best_tau=1.0000  val_mse=2615.8237
+2026-04-08 15:34:10 [INFO] experiment: Seed 6: tuned SP-MAVE k=40, tau=1.0000 (val_mse=2615.8237)
+2026-04-08 15:34:10 [INFO] experiment: Seed 6: classical top-k k matched to SP-MAVE k=40
+2026-04-08 15:34:41 [INFO] experiment:   Seed  7/10 done in 62.1s
+2026-04-08 15:34:41 [INFO] sp_mave.tuning: Tuning: train_inner=1400  val=350  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:34:42 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1400, 1400))
+2026-04-08 15:35:12 [INFO] sp_mave.tuning: Tuning result: best_k=10  best_tau=2.0000  val_mse=1244.1703
+2026-04-08 15:35:12 [INFO] experiment: Seed 7: tuned SP-MAVE k=10, tau=2.0000 (val_mse=1244.1703)
+2026-04-08 15:35:12 [INFO] experiment: Seed 7: classical top-k k matched to SP-MAVE k=10
+2026-04-08 15:35:48 [INFO] experiment:   Seed  8/10 done in 66.8s
+2026-04-08 15:35:48 [INFO] sp_mave.tuning: Tuning: train_inner=1400  val=350  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:35:49 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1400, 1400))
+2026-04-08 15:36:20 [INFO] sp_mave.tuning: Tuning result: best_k=10  best_tau=0.5000  val_mse=1946.1415
+2026-04-08 15:36:20 [INFO] experiment: Seed 8: tuned SP-MAVE k=10, tau=0.5000 (val_mse=1946.1415)
+2026-04-08 15:36:20 [INFO] experiment: Seed 8: classical top-k k matched to SP-MAVE k=10
+2026-04-08 15:36:45 [INFO] experiment:   Seed  9/10 done in 57.1s
+2026-04-08 15:36:45 [INFO] sp_mave.tuning: Tuning: train_inner=1400  val=350  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:36:46 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1400, 1400))
+2026-04-08 15:37:18 [INFO] sp_mave.tuning: Tuning result: best_k=15  best_tau=2.0000  val_mse=2403.7431
+2026-04-08 15:37:18 [INFO] experiment: Seed 9: tuned SP-MAVE k=15, tau=2.0000 (val_mse=2403.7431)
+2026-04-08 15:37:18 [INFO] experiment: Seed 9: classical top-k k matched to SP-MAVE k=15
+2026-04-08 15:37:37 [INFO] experiment:   Seed 10/10 done in 51.9s
+2026-04-08 15:37:37 [INFO] experiment: All 10 seeds completed in 571.0s
+2026-04-08 15:37:38 [INFO] experiment: Saved convergence, subspace-change, and weight figures.
+2026-04-08 15:37:38 [INFO] experiment: Saved paper-style figures under /home/tunmbi/sp_mave/results/mave/semi_synthetic/california_housing/figures                                                                                                                                                
+
+==========================================================================================
+MULTI-SEED EXPERIMENT SUMMARY  (10 seeds)  —  semi_synthetic_real_x
+==========================================================================================
+
+  Subspace Recovery (mean ± std):
+  Method                     Proj Dist      Grass Dist        Vec Corr       Iters
+  --------------------------------------------------------------------------------
+  ClassicalMAVE          1.8286±0.0673   1.6627±0.0826   0.5924±0.0367       41±21
+  ClassicalMAVE_kNN      0.8174±0.2299   0.6199±0.1941   0.9324±0.0362       65±20
+  RFWeightedMAVE         1.6779±0.1719   1.5229±0.2379   0.6511±0.0971       66±20
+
+  Downstream Prediction — Test MSE (mean ± std):
+  (Second-stage models estimating g after B is learned by MAVE/SP-MAVE)
+  Method                        linear   random_forest       Iters
+  ----------------------------------------------------------------
+  ClassicalMAVE         83004.9165±207600.4639  81256.8452±212941.2786       41±21
+  ClassicalMAVE_kNN     88178.9991±214335.3870  78115.0955±207160.6916       65±20
+  RFWeightedMAVE        80625.3972±202362.2599  82697.3559±213308.7237       66±20
+
+------------------------------------------------------------------------------------------
+  ANALYSIS
+------------------------------------------------------------------------------------------
+
+  1. Best method by test MSE (lowest mean):
+             linear: RFWeightedMAVE  (80625.3972 ± 202362.2599)
+      random_forest: ClassicalMAVE_kNN  (78115.0955 ± 207160.6916)
+
+  2. Best method by subspace recovery:
+          Proj Dist: ClassicalMAVE_kNN  (0.8174 ± 0.2299)
+         Grass Dist: ClassicalMAVE_kNN  (0.6199 ± 0.1941)
+           Vec Corr: ClassicalMAVE_kNN  (0.9324 ± 0.0362)
+
+  3. Consistency across seeds (CV = std/mean for test_mse_linear):
+     ClassicalMAVE         CV = 2.501
+     ClassicalMAVE_kNN     CV = 2.431
+     RFWeightedMAVE        CV = 2.510
+
+  4. Effect of nonlinear second-stage models:
+     ClassicalMAVE         linear→random_forest: +1748.0713 (+2.1% improvement)
+     ClassicalMAVE_kNN     linear→random_forest: +10063.9035 (+11.4% improvement)
+     RFWeightedMAVE        linear→random_forest: -2071.9587 (-2.6% degradation)
+
+  5. Convergence observations:
+     ClassicalMAVE         avg 41 iters — converged well within budget
+     ClassicalMAVE_kNN     avg 65 iters — converged well within budget
+     RFWeightedMAVE        avg 66 iters — converged well within budget
+
+==========================================================================================
+
+
+=== Running configs/mave_energy_ccpp.yaml  ->  mave/energy/ccpp/ ===
+
+2026-04-08 15:37:38 [INFO] experiment: ============================================================
+2026-04-08 15:37:38 [INFO] experiment: MULTI-SEED EXPERIMENT: combined_cycle_power_plant  (10 seeds)
+2026-04-08 15:37:38 [INFO] experiment: ============================================================
+2026-04-08 15:37:38 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:37:39 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 15:38:17 [INFO] sp_mave.tuning: Tuning result: best_k=40  best_tau=2.0000  val_mse=17.0304
+2026-04-08 15:38:17 [INFO] experiment: Seed 0: tuned SP-MAVE k=40, tau=2.0000 (val_mse=17.0304)
+2026-04-08 15:38:17 [INFO] experiment: Seed 0: classical top-k k matched to SP-MAVE k=40
+2026-04-08 15:38:47 [INFO] experiment:   Seed  1/10 done in 69.1s
+2026-04-08 15:38:47 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:38:48 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 15:39:17 [INFO] sp_mave.tuning: Tuning result: best_k=25  best_tau=0.5000  val_mse=22.1073
+2026-04-08 15:39:17 [INFO] experiment: Seed 1: tuned SP-MAVE k=25, tau=0.5000 (val_mse=22.1073)
+2026-04-08 15:39:17 [INFO] experiment: Seed 1: classical top-k k matched to SP-MAVE k=25
+2026-04-08 15:39:45 [INFO] experiment:   Seed  2/10 done in 57.4s
+2026-04-08 15:39:45 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:39:46 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 15:40:24 [INFO] sp_mave.tuning: Tuning result: best_k=25  best_tau=2.0000  val_mse=18.7926
+2026-04-08 15:40:24 [INFO] experiment: Seed 2: tuned SP-MAVE k=25, tau=2.0000 (val_mse=18.7926)
+2026-04-08 15:40:24 [INFO] experiment: Seed 2: classical top-k k matched to SP-MAVE k=25
+2026-04-08 15:40:52 [INFO] experiment:   Seed  3/10 done in 67.5s
+2026-04-08 15:40:52 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:40:53 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 15:41:31 [INFO] sp_mave.tuning: Tuning result: best_k=25  best_tau=0.5000  val_mse=19.7721
+2026-04-08 15:41:31 [INFO] experiment: Seed 3: tuned SP-MAVE k=25, tau=0.5000 (val_mse=19.7721)
+2026-04-08 15:41:31 [INFO] experiment: Seed 3: classical top-k k matched to SP-MAVE k=25
+2026-04-08 15:41:57 [INFO] experiment:   Seed  4/10 done in 65.2s
+2026-04-08 15:41:57 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:41:59 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 15:42:25 [INFO] sp_mave.tuning: Tuning result: best_k=40  best_tau=2.0000  val_mse=23.1736
+2026-04-08 15:42:25 [INFO] experiment: Seed 4: tuned SP-MAVE k=40, tau=2.0000 (val_mse=23.1736)
+2026-04-08 15:42:25 [INFO] experiment: Seed 4: classical top-k k matched to SP-MAVE k=40
+2026-04-08 15:42:54 [INFO] experiment:   Seed  5/10 done in 56.4s
+2026-04-08 15:42:54 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:42:55 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 15:43:33 [INFO] sp_mave.tuning: Tuning result: best_k=20  best_tau=1.0000  val_mse=20.0823
+2026-04-08 15:43:33 [INFO] experiment: Seed 5: tuned SP-MAVE k=20, tau=1.0000 (val_mse=20.0823)
+2026-04-08 15:43:33 [INFO] experiment: Seed 5: classical top-k k matched to SP-MAVE k=20
+2026-04-08 15:43:58 [INFO] experiment:   Seed  6/10 done in 64.7s
+2026-04-08 15:43:58 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:44:00 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 15:44:28 [INFO] sp_mave.tuning: Tuning result: best_k=40  best_tau=2.0000  val_mse=18.3408
+2026-04-08 15:44:28 [INFO] experiment: Seed 6: tuned SP-MAVE k=40, tau=2.0000 (val_mse=18.3408)
+2026-04-08 15:44:28 [INFO] experiment: Seed 6: classical top-k k matched to SP-MAVE k=40
+2026-04-08 15:44:53 [INFO] experiment:   Seed  7/10 done in 55.1s
+2026-04-08 15:44:53 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:44:55 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 15:45:33 [INFO] sp_mave.tuning: Tuning result: best_k=25  best_tau=2.0000  val_mse=26.0127
+2026-04-08 15:45:33 [INFO] experiment: Seed 7: tuned SP-MAVE k=25, tau=2.0000 (val_mse=26.0127)
+2026-04-08 15:45:33 [INFO] experiment: Seed 7: classical top-k k matched to SP-MAVE k=25
+2026-04-08 15:46:06 [INFO] experiment:   Seed  8/10 done in 72.6s
+2026-04-08 15:46:06 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:46:07 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 15:46:37 [INFO] sp_mave.tuning: Tuning result: best_k=30  best_tau=1.0000  val_mse=19.0189
+2026-04-08 15:46:37 [INFO] experiment: Seed 8: tuned SP-MAVE k=30, tau=1.0000 (val_mse=19.0189)
+2026-04-08 15:46:37 [INFO] experiment: Seed 8: classical top-k k matched to SP-MAVE k=30
+2026-04-08 15:47:18 [INFO] experiment:   Seed  9/10 done in 71.9s
+2026-04-08 15:47:18 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:47:19 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 15:47:54 [INFO] sp_mave.tuning: Tuning result: best_k=40  best_tau=2.0000  val_mse=20.4086
+2026-04-08 15:47:54 [INFO] experiment: Seed 9: tuned SP-MAVE k=40, tau=2.0000 (val_mse=20.4086)
+2026-04-08 15:47:54 [INFO] experiment: Seed 9: classical top-k k matched to SP-MAVE k=40
+2026-04-08 15:48:26 [INFO] experiment:   Seed 10/10 done in 67.8s
+2026-04-08 15:48:26 [INFO] experiment: All 10 seeds completed in 647.7s
+2026-04-08 15:48:27 [INFO] experiment: Saved convergence, subspace-change, and weight figures.
+2026-04-08 15:48:27 [INFO] experiment: Saved paper-style figures under /home/tunmbi/sp_mave/results/mave/energy/ccpp/figures
+
+==========================================================================================
+MULTI-SEED EXPERIMENT SUMMARY  (10 seeds)  —  combined_cycle_power_plant
+==========================================================================================
+
+  (Subspace recovery metrics not available — true subspace unknown for this dataset)
+
+  Downstream Prediction — Test MSE (mean ± std):
+  (Second-stage models estimating g after B is learned by MAVE/SP-MAVE)
+  Method                        linear   random_forest       Iters
+  ----------------------------------------------------------------
+  ClassicalMAVE         19.5396±1.3509  19.7839±1.2181        28±8
+  ClassicalMAVE_kNN     19.8399±1.2654  19.6182±1.6811       79±22
+  RFWeightedMAVE        19.6439±1.4316  20.1430±1.4444       50±26
+
+------------------------------------------------------------------------------------------
+  ANALYSIS
+------------------------------------------------------------------------------------------
+
+  1. Best method by test MSE (lowest mean):
+             linear: ClassicalMAVE  (19.5396 ± 1.3509)
+      random_forest: ClassicalMAVE_kNN  (19.6182 ± 1.6811)
+
+  2. Consistency across seeds (CV = std/mean for test_mse_linear):
+     ClassicalMAVE         CV = 0.069
+     ClassicalMAVE_kNN     CV = 0.064
+     RFWeightedMAVE        CV = 0.073
+
+  3. Effect of nonlinear second-stage models:
+     ClassicalMAVE         linear→random_forest: -0.2443 (-1.3% degradation)
+     ClassicalMAVE_kNN     linear→random_forest: +0.2217 (+1.1% improvement)
+     RFWeightedMAVE        linear→random_forest: -0.4991 (-2.5% degradation)
+
+  4. Convergence observations:
+     ClassicalMAVE         avg 28 iters — converged well within budget
+     ClassicalMAVE_kNN     avg 79 iters — converged well within budget
+     RFWeightedMAVE        avg 50 iters — converged well within budget
+
+==========================================================================================
+
+
+=== Running configs/mave_housing_california.yaml  ->  mave/housing/california_housing/ ===
+
+2026-04-08 15:48:27 [INFO] experiment: ============================================================
+2026-04-08 15:48:27 [INFO] experiment: MULTI-SEED EXPERIMENT: california_housing  (10 seeds)
+2026-04-08 15:48:27 [INFO] experiment: ============================================================
+2026-04-08 15:48:27 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:48:28 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 15:49:08 [INFO] sp_mave.tuning: Tuning result: best_k=25  best_tau=1.0000  val_mse=0.5950
+2026-04-08 15:49:08 [INFO] experiment: Seed 0: tuned SP-MAVE k=25, tau=1.0000 (val_mse=0.5950)
+2026-04-08 15:49:08 [INFO] experiment: Seed 0: classical top-k k matched to SP-MAVE k=25
+2026-04-08 15:49:51 [WARNING] sp_mave.mave: ClassicalMAVE: delta_B=0.9428 at final iteration (max_iters=100) — may not have converged
+2026-04-08 15:50:19 [WARNING] sp_mave.mave: SPMAVE: delta_B=0.0141 at final iteration (max_iters=100) — may not have converged
+2026-04-08 15:50:19 [INFO] experiment:   Seed  1/10 done in 112.3s
+2026-04-08 15:50:19 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:50:20 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 15:51:00 [INFO] sp_mave.tuning: Tuning result: best_k=40  best_tau=2.0000  val_mse=0.4075
+2026-04-08 15:51:00 [INFO] experiment: Seed 1: tuned SP-MAVE k=40, tau=2.0000 (val_mse=0.4075)
+2026-04-08 15:51:00 [INFO] experiment: Seed 1: classical top-k k matched to SP-MAVE k=40
+2026-04-08 15:51:37 [INFO] experiment:   Seed  2/10 done in 78.0s
+2026-04-08 15:51:37 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:51:38 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 15:52:18 [INFO] sp_mave.tuning: Tuning result: best_k=40  best_tau=2.0000  val_mse=0.5040
+2026-04-08 15:52:18 [INFO] experiment: Seed 2: tuned SP-MAVE k=40, tau=2.0000 (val_mse=0.5040)
+2026-04-08 15:52:18 [INFO] experiment: Seed 2: classical top-k k matched to SP-MAVE k=40
+2026-04-08 15:52:37 [INFO] experiment:   Seed  3/10 done in 60.5s
+2026-04-08 15:52:37 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:52:39 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 15:53:13 [INFO] sp_mave.tuning: Tuning result: best_k=10  best_tau=0.5000  val_mse=0.4818
+2026-04-08 15:53:13 [INFO] experiment: Seed 3: tuned SP-MAVE k=10, tau=0.5000 (val_mse=0.4818)
+2026-04-08 15:53:13 [INFO] experiment: Seed 3: classical top-k k matched to SP-MAVE k=10
+2026-04-08 15:54:06 [INFO] experiment:   Seed  4/10 done in 88.5s
+2026-04-08 15:54:06 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:54:07 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 15:54:47 [INFO] sp_mave.tuning: Tuning result: best_k=40  best_tau=2.0000  val_mse=0.3899
+2026-04-08 15:54:47 [INFO] experiment: Seed 4: tuned SP-MAVE k=40, tau=2.0000 (val_mse=0.3899)
+2026-04-08 15:54:47 [INFO] experiment: Seed 4: classical top-k k matched to SP-MAVE k=40
+2026-04-08 15:55:28 [WARNING] sp_mave.mave: ClassicalMAVE: delta_B=0.7064 at final iteration (max_iters=100) — may not have converged
+2026-04-08 15:55:55 [INFO] experiment:   Seed  5/10 done in 108.7s
+2026-04-08 15:55:55 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:55:56 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 15:56:35 [INFO] sp_mave.tuning: Tuning result: best_k=30  best_tau=2.0000  val_mse=0.5086
+2026-04-08 15:56:35 [INFO] experiment: Seed 5: tuned SP-MAVE k=30, tau=2.0000 (val_mse=0.5086)
+2026-04-08 15:56:35 [INFO] experiment: Seed 5: classical top-k k matched to SP-MAVE k=30
+2026-04-08 15:57:01 [INFO] experiment:   Seed  6/10 done in 66.6s
+2026-04-08 15:57:01 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:57:03 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 15:57:42 [INFO] sp_mave.tuning: Tuning result: best_k=40  best_tau=0.5000  val_mse=0.5336
+2026-04-08 15:57:42 [INFO] experiment: Seed 6: tuned SP-MAVE k=40, tau=0.5000 (val_mse=0.5336)
+2026-04-08 15:57:42 [INFO] experiment: Seed 6: classical top-k k matched to SP-MAVE k=40
+2026-04-08 15:58:10 [INFO] experiment:   Seed  7/10 done in 68.9s
+2026-04-08 15:58:10 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 15:58:11 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 15:58:50 [INFO] sp_mave.tuning: Tuning result: best_k=40  best_tau=2.0000  val_mse=0.4079
+2026-04-08 15:58:50 [INFO] experiment: Seed 7: tuned SP-MAVE k=40, tau=2.0000 (val_mse=0.4079)
+2026-04-08 15:58:50 [INFO] experiment: Seed 7: classical top-k k matched to SP-MAVE k=40
+2026-04-08 15:59:32 [WARNING] sp_mave.mave: ClassicalMAVE: delta_B=0.8227 at final iteration (max_iters=100) — may not have converged
+2026-04-08 15:59:59 [INFO] experiment:   Seed  8/10 done in 109.0s
+2026-04-08 15:59:59 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 16:00:00 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 16:00:40 [INFO] sp_mave.tuning: Tuning result: best_k=40  best_tau=2.0000  val_mse=1.1039
+2026-04-08 16:00:40 [INFO] experiment: Seed 8: tuned SP-MAVE k=40, tau=2.0000 (val_mse=1.1039)
+2026-04-08 16:00:40 [INFO] experiment: Seed 8: classical top-k k matched to SP-MAVE k=40
+2026-04-08 16:01:21 [WARNING] sp_mave.mave: ClassicalMAVE: delta_B=0.1053 at final iteration (max_iters=100) — may not have converged
+2026-04-08 16:01:39 [WARNING] sp_mave.mave: ClassicalMAVE_k40: delta_B=0.0121 at final iteration (max_iters=100) — may not have converged
+2026-04-08 16:01:49 [INFO] experiment:   Seed  9/10 done in 110.2s
+2026-04-08 16:01:49 [INFO] sp_mave.tuning: Tuning: train_inner=1680  val=420  |k_grid|=6  |tau_grid|=3
+2026-04-08 16:01:51 [INFO] sp_mave.tuning: Tuning: computed proximity matrix on train_inner (shape (1680, 1680))
+2026-04-08 16:02:30 [INFO] sp_mave.tuning: Tuning result: best_k=40  best_tau=2.0000  val_mse=0.4929
+2026-04-08 16:02:30 [INFO] experiment: Seed 9: tuned SP-MAVE k=40, tau=2.0000 (val_mse=0.4929)
+2026-04-08 16:02:30 [INFO] experiment: Seed 9: classical top-k k matched to SP-MAVE k=40
+2026-04-08 16:03:11 [WARNING] sp_mave.mave: ClassicalMAVE: delta_B=0.0186 at final iteration (max_iters=100) — may not have converged
+2026-04-08 16:03:40 [INFO] experiment:   Seed 10/10 done in 111.0s
+2026-04-08 16:03:40 [INFO] experiment: All 10 seeds completed in 913.5s
+2026-04-08 16:03:41 [INFO] experiment: Saved convergence, subspace-change, and weight figures.
+2026-04-08 16:03:41 [INFO] experiment: Saved paper-style figures under /home/tunmbi/sp_mave/results/mave/housing/california_housing/figures
+
+==========================================================================================
+MULTI-SEED EXPERIMENT SUMMARY  (10 seeds)  —  california_housing
+==========================================================================================
+
+  (Subspace recovery metrics not available — true subspace unknown for this dataset)
+
+  Downstream Prediction — Test MSE (mean ± std):
+  (Second-stage models estimating g after B is learned by MAVE/SP-MAVE)
+  Method                        linear   random_forest       Iters
+  ----------------------------------------------------------------
+  ClassicalMAVE          1.1919±2.0041   0.4444±0.0507       63±39
+  ClassicalMAVE_kNN      1.6649±3.0488   0.4271±0.0404       83±23
+  RFWeightedMAVE         1.4627±2.7627   0.4418±0.0493       93±15
+
+------------------------------------------------------------------------------------------
+  ANALYSIS
+------------------------------------------------------------------------------------------
+
+  1. Best method by test MSE (lowest mean):
+             linear: ClassicalMAVE  (1.1919 ± 2.0041)
+      random_forest: ClassicalMAVE_kNN  (0.4271 ± 0.0404)
+
+  2. Consistency across seeds (CV = std/mean for test_mse_linear):
+     ClassicalMAVE         CV = 1.681
+     ClassicalMAVE_kNN     CV = 1.831
+     RFWeightedMAVE        CV = 1.889
+
+  3. Effect of nonlinear second-stage models:
+     ClassicalMAVE         linear→random_forest: +0.7475 (+62.7% improvement)
+     ClassicalMAVE_kNN     linear→random_forest: +1.2379 (+74.3% improvement)
+     RFWeightedMAVE        linear→random_forest: +1.0209 (+69.8% improvement)
+
+  4. Convergence observations:
+     ClassicalMAVE         avg 63 iters — converged well within budget
+     ClassicalMAVE_kNN     avg 83 iters — converged well within budget
+     RFWeightedMAVE        avg 93 iters — converged well within budget
+
+==========================================================================================
+
+
+Wrote aggregated summary: /home/tunmbi/sp_mave/results/mave/master_summary.csv

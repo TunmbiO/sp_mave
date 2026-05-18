@@ -1,0 +1,56 @@
+# Default configuration — base settings inherited by all experiments.
+
+dataset:
+  name: friedman1
+  n_samples: 100
+  n_noise: 20
+  random_state: 42
+
+model:
+  d: 5
+  bandwidth: auto          # median heuristic for Gaussian MAVE
+  k: 20                    # neighbourhood size for top-k
+  tau: 0.1                 # softmax temperature for SP-MAVE
+  max_iters: 50
+  tol: 1.0e-6
+  ridge_lambda: 0.01       # Tikhonov regularisation in WLS (adaptive scaling applied)
+  init_method: pca
+  random_state: 42
+
+random_forest:
+  n_estimators: 500
+  max_depth: null
+  min_samples_leaf: 5
+  max_features: sqrt
+  random_state: 42
+
+crossfit:
+  n_splits: 5
+  shuffle: true
+  random_state: 42
+
+evaluation:
+  downstream_model: linear
+  metrics:
+    - projection_distance
+    - grassmann_distance
+    - vector_correlation
+    - test_mse
+  save_figures: true
+
+split:
+  test_size: 0.3
+  random_state: 42
+
+methods:
+  - classical_mave
+  - sp_mave
+
+# Validation-based tuning for SP-MAVE (disabled by default).
+# Enable in experiment-specific configs for "final mode".
+tuning:
+  enabled: false
+  val_size: 0.2
+  k_candidates: [10, 15, 20, 25, 30]
+  tau_candidates: [0.05, 0.1, 0.2, 0.5]
+  random_state: 42

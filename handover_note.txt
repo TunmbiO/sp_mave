@@ -1,0 +1,90 @@
+HANDOVER NOTE — /configs/friedman_final.yaml
+
+Summary
+- This repo currently has a single “final experiment” configuration file:
+  - `configs/friedman_final.yaml`
+- The file defines an experiment on the Friedman1 dataset, includes both classical MAVE baselines and SP-MAVE variants, and enables validation-based tuning for SP-MAVE hyperparameters `k` and `tau`.
+
+What this configuration does (key sections)
+1) Dataset
+- dataset:
+  - name: `friedman1`
+  - n_samples: `100`
+  - n_noise: `20`
+  - random_state: `42`
+
+2) Main model / SP-MAVE settings
+- model:
+  - d: `5`                  # intrinsic dimension / subspace dimension
+  - bandwidth: `auto`
+  - k (initial): `20`      # IMPORTANT: treated as initial value
+  - tau (initial): `0.1`  # IMPORTANT: treated as initial value
+  - max_iters: `100`
+  - tol: `1.0e-6`
+  - ridge_lambda: `0.01`
+  - init_method: `pca`
+  - random_state: `42`
+- Comment embedded in the file:
+  - “when tuning.enabled is true, k and tau below are overridden by the validation-selected values before fitting.”
+
+3) Random forest proximity (used by SP-MAVE pipeline)
+- random_forest:
+  - n_estimators: `500`
+  - max_depth: `null`
+  - min_samples_leaf: `5`
+  - max_features: `sqrt`
+  - random_state: `42`
+
+4) Cross-fitting
+- crossfit:
+  - n_splits: `5`
+  - shuffle: `true`
+  - random_state: `42`
+
+5) Evaluation / outputs
+- evaluation:
+  - downstream_model: `linear`
+  - metrics:
+    - `projection_distance`
+    - `grassmann_distance`
+    - `vector_correlation`
+    - `test_mse`
+  - save_figures: `true`
+
+6) Train/test split
+- split:
+  - test_size: `0.3`
+  - random_state: `42`
+
+7) Methods to run (models/estimators)
+- methods:
+  - `classical_mave`
+  - `classical_mave_topk`
+  - `sp_mave`
+
+8) Hyperparameter tuning (validation-based) — enabled
+- tuning:
+  - enabled: `true`
+  - val_size: `0.2`                  # held-out validation fraction from training
+  - k_candidates: `[10, 15, 20, 25, 30, 40]`
+  - tau_candidates: `[0.5, 1.0, 2.0]`
+  - random_state: `42`
+- Comment embedded in the file:
+  - “tuner holds out val_size…, computes RF proximities once, then evaluates every (k, tau) pair cheaply.”
+
+Important notes / assumptions
+- `model.k` and `model.tau` in this YAML are INITIAL values only; because `tuning.enabled: true`, the tuner should override them with the validation-selected `(k, tau)` before fitting.
+- This config includes RF settings and crossfit settings, so tuning cost should be reduced by “compute RF proximities once” behavior (as described in-file).
+
+What I did in this session
+- I only inspected/read `configs/friedman_final.yaml` to extract and summarize its current contents.
+- No files were modified by me.
+
+How to proceed (typical next instruction targets)
+- If your next step is “run experiments”, use `configs/friedman_final.yaml` as the run config so you get:
+  - methods: `classical_mave`, `classical_mave_topk`, `sp_mave`
+  - metrics: projection_distance / grassmann_distance / vector_correlation / test_mse / test_mse
+  - tuning of SP-MAVE `(k, tau)` over the candidate grids above.
+- If your next step is “change tuning space”, edit under `tuning:`:
+  - `k_candidates` and/or `tau_candidates`, and keep `tuning.enabled: true` to keep override behavior.
+- If your next step is “change baseline methods”, edit the `methods:` list.

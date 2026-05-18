@@ -1,0 +1,61 @@
+# Communities and Crime — UCI dataset (~1900 samples, ~100 features after cleaning).
+# Response: ViolentCrimesPerPop.  No ground-truth subspace.
+# Requires internet on first run to download from UCI repository.
+
+dataset:
+  name: communities_crime
+  missing_threshold: 0.1
+
+model:
+  d: 5
+  bandwidth: auto
+  k: 20
+  tau: 0.1
+  max_iters: 50
+  tol: 1.0e-6
+  ridge_lambda: 0.01
+  init_method: pca
+  random_state: 42
+
+random_forest:
+  n_estimators: 500
+  max_depth: null
+  min_samples_leaf: 5
+  max_features: sqrt
+  random_state: 42
+
+crossfit:
+  n_splits: 5
+  shuffle: true
+  random_state: 42
+
+evaluation:
+  downstream_models:
+    - linear
+    - kernel_ridge
+    - random_forest
+  metrics:
+    - test_mse
+  save_figures: true
+
+split:
+  test_size: 0.3
+  random_state: 42
+
+# classical_mave (k=None) omitted: O(n^2) weight matrix is prohibitively
+# slow for n≈2000.  Use top-k variants only for large datasets.
+methods:
+  - classical_mave_topk
+  - sp_mave
+
+tuning:
+  enabled: true
+  val_size: 0.2
+  k_candidates: [10, 20, 30]
+  tau_candidates: [0.5, 1.0, 2.0]
+  random_state: 42
+  max_iters: 20
+
+multi_seed:
+  enabled: true
+  n_seeds: 10

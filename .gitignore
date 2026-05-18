@@ -1,0 +1,26 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.venv/
+# Generated experiment outputs
+results/
+venv/
+env/
+results/figures/*.png
+results/figures/*.pdf
+results/tables/*.csv
+results/summaries/*.json
+results/logs/*.log
+data/*.csv
+data/*.parquet
+.DS_Store
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
