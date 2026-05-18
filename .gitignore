@@ -7,6 +7,10 @@ build/
 .eggs/
 *.egg
 .venv/
+# Local secrets and shell config
+.env
+.env.*
+!.env.example
 # Generated experiment outputs
 results/
 venv/
