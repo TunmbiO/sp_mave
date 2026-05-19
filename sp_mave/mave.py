@@ -292,7 +292,7 @@ class MAVEBase(ABC):
 
         B = self._initialize_B(X)
         loss_history: list[float] = []
-        delta_B_history: list[float] = []
+        delta_PB_history: list[float] = []
         rel_change_history: list[float] = []
         prev_loss = np.inf
         W = np.empty(0)
@@ -321,13 +321,13 @@ class MAVEBase(ABC):
 
             # Step 2: update B with {a_j, b_j} fixed
             B_new = self._update_B(X, y, W, alphas, betas, B)
-            delta_B = float(np.linalg.norm(B_new - B, "fro"))
-            delta_B_history.append(delta_B)
+            delta_PB = float(np.linalg.norm(B_new @ B_new.T - B @ B.T, "fro"))
+            delta_PB_history.append(delta_PB)
 
             if iteration > 0 and rel_change < self.tol:
                 logger.info(
-                    "%s converged at iter %d (rel_change=%.2e, delta_B=%.2e)",
-                    self.method_name, iteration, rel_change, delta_B,
+                    "%s converged at iter %d (rel_change=%.2e, delta_PB=%.2e)",
+                    self.method_name, iteration, rel_change, delta_PB,
                 )
                 B = B_new
                 break
@@ -337,15 +337,15 @@ class MAVEBase(ABC):
 
         # Convergence diagnostics
         hit_max = len(loss_history) >= self.max_iters
-        if hit_max and delta_B_history and delta_B_history[-1] > 1e-2:
+        if hit_max and delta_PB_history and delta_PB_history[-1] > 1e-2:
             logger.warning(
-                "%s: delta_B=%.4f at final iteration (max_iters=%d) "
+                "%s: delta_PB=%.4f at final iteration (max_iters=%d) "
                 "— may not have converged",
-                self.method_name, delta_B_history[-1], self.max_iters,
+                self.method_name, delta_PB_history[-1], self.max_iters,
             )
-        if len(delta_B_history) > 5 and max(delta_B_history[3:]) < 1e-10:
+        if len(delta_PB_history) > 5 and max(delta_PB_history[3:]) < 1e-10:
             logger.warning(
-                "%s: delta_B near zero since iter 3 — possible stagnation",
+                "%s: delta_PB near zero since iter 3 — possible stagnation",
                 self.method_name,
             )
 
@@ -359,7 +359,7 @@ class MAVEBase(ABC):
             history={
                 "objective": list(loss_history),
                 "rel_change": rel_change_history,
-                "delta_B": delta_B_history,
+                "delta_PB": delta_PB_history,
             },
         )
         return self

@@ -29,7 +29,7 @@ import logging
 import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import KFold, train_test_split
 
 from sp_mave.mave import ClassicalMAVE, MAVEBase
 from sp_mave.proximities import (
@@ -286,4 +286,105 @@ def tune_k_classical_topk(
         "best_k": best_k,
         "best_val_mse": best_val_mse,
         "grid_results": grid_results,
+    }
+
+
+def tune_k_classical_cv(
+    X_train: np.ndarray,
+    y_train: np.ndarray,
+    k_candidates: list[int],
+    d: int,
+    model_cfg: dict[str, Any],
+    n_splits: int = 5,
+    random_state: int = 42,
+    tuning_max_iters: int | None = None,
+) -> dict[str, Any]:
+    """Select k for ClassicalMAVE top-k via K-fold cross-validation.
+
+    For each candidate k, runs K-fold CV on X_train: fit ClassicalMAVE
+    on each training fold, project the validation fold, fit a linear
+    regression on the reduced training fold, score on the reduced
+    validation fold.  Selects k* = argmin(mean CV-MSE).
+
+    Parameters
+    ----------
+    X_train, y_train : training data (already standardised).
+    k_candidates : neighbourhood sizes to evaluate.
+    d : reduced dimension.
+    model_cfg : model config dict (ridge_lambda, max_iters, init_method,
+        bandwidth, random_state).
+    n_splits : number of CV folds (default 5).
+    random_state : seed for the KFold splitter.
+    tuning_max_iters : if set, overrides model_cfg["max_iters"] for speed.
+
+    Returns
+    -------
+    dict with keys:
+      best_k        -- selected neighbourhood size
+      best_cv_mse   -- mean CV-MSE at best_k
+      cv_scores     -- {k: [fold_mse, ...]} for all candidates
+    """
+    n, _ = check_dimensions(X_train, y_train, context="tune_k_classical_cv")
+
+    max_k = n - 1
+    k_list = sorted({min(k, max_k) for k in k_candidates if k >= 2})
+    if not k_list:
+        raise ValueError(
+            f"No valid k candidates for n={n}. "
+            f"All candidates must satisfy 2 <= k <= {max_k}."
+        )
+
+    effective_max_iters = (
+        tuning_max_iters if tuning_max_iters is not None
+        else model_cfg.get("max_iters", 50)
+    )
+    bandwidth = model_cfg.get("bandwidth", "auto")
+    common_kw = dict(
+        d=d,
+        max_iters=effective_max_iters,
+        tol=model_cfg.get("tol", 1e-6),
+        ridge_lambda=model_cfg.get("ridge_lambda", 0.01),
+        init_method=model_cfg.get("init_method", "pca"),
+        random_state=model_cfg.get("random_state", 42),
+    )
+
+    cv_scores: dict[int, list[float]] = {k: [] for k in k_list}
+
+    kf = KFold(n_splits=n_splits, shuffle=True, random_state=random_state)
+
+    mave_logger = logging.getLogger("sp_mave.mave")
+    prev_level = mave_logger.level
+    mave_logger.setLevel(logging.ERROR)
+    try:
+        for fold_train_idx, fold_val_idx in kf.split(X_train):
+            X_fold_tr = X_train[fold_train_idx]
+            y_fold_tr = y_train[fold_train_idx]
+            X_fold_val = X_train[fold_val_idx]
+            y_fold_val = y_train[fold_val_idx]
+            n_fold_tr = len(fold_train_idx)
+
+            for k in k_list:
+                k_eff = min(k, n_fold_tr - 1)
+                est = ClassicalMAVE(bandwidth=bandwidth, k=k_eff, **common_kw)
+                est.fit(X_fold_tr, y_fold_tr)
+                B = est.B_
+                Z_tr = X_fold_tr @ B
+                Z_val = X_fold_val @ B
+                lr = LinearRegression().fit(Z_tr, y_fold_tr)
+                fold_mse = float(mean_squared_error(y_fold_val, lr.predict(Z_val)))
+                cv_scores[k].append(fold_mse)
+    finally:
+        mave_logger.setLevel(prev_level)
+
+    mean_cv = {k: float(np.mean(v)) for k, v in cv_scores.items()}
+    best_k = min(k_list, key=lambda k: mean_cv[k])
+
+    logger.info(
+        "tune_k_classical_cv: best_k=%d  mean_cv_mse=%.4f",
+        best_k, mean_cv[best_k],
+    )
+    return {
+        "best_k": best_k,
+        "best_cv_mse": mean_cv[best_k],
+        "cv_scores": cv_scores,
     }
