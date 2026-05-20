@@ -5,8 +5,10 @@ Forest proximity weights constructed via K-fold cross-fitting.
 
 Weight construction
 -------------------
-1. Cross-fit RF proximities within the training sample (see
-   proximities.py for the detailed procedure and asymmetry note).
+1. Cross-fit RF proximities within the training sample (K-fold; see
+   proximities.py for why cross-fitting is essential — a standard RF
+   inflates self-proximity to 1.0 for every training point, which
+   distorts the neighbourhood structure for MAVE's anchor-based WLS).
 2. For each anchor j, retain only the top-k neighbours by proximity.
 3. Normalise the retained proximities with a softmax (temperature tau).
 4. Use the resulting weight matrix in the true iterative MAVE pipeline
@@ -42,9 +44,11 @@ class SPMAVE(MAVEBase):
     d : int
         Target reduced dimension.
     k : int
-        Number of neighbours to retain per anchor.
+        Number of neighbours to retain per anchor.  A practical rule is
+        k = floor(0.20 × n); experiments use k=20 at n=100, k=40 at n=200,
+        k=100 at n=500.
     tau : float
-        Softmax temperature for proximity weighting.
+        Softmax temperature for proximity weighting (τ=1.0 in all experiments).
     rf_params : dict
         Keyword arguments for sklearn.ensemble.RandomForestRegressor.
     crossfit_cfg : dict
@@ -55,7 +59,7 @@ class SPMAVE(MAVEBase):
         self,
         d: int = 1,
         k: int = 20,
-        tau: float = 0.1,
+        tau: float = 1.0,
         rf_params: dict[str, Any] | None = None,
         crossfit_cfg: dict[str, Any] | None = None,
         symmetrise: bool = False,

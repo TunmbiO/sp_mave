@@ -1,0 +1,13 @@
+# Ignore large raw data files
+*.csv
+*.gz
+*.zip
+*.tar
+*.h5
+*.hdf5
+*.parquet
+*.feather
+
+# Allow small bundled datasets checked in as .npz or .txt
+!*.npz
+!*.txt

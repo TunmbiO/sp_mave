@@ -11,15 +11,12 @@ build/
 .env
 .env.*
 !.env.example
-# Generated experiment outputs
-results/
+# Generated experiment outputs — only canonical result files are tracked
+results/real_data/
+results/*.log
+results/*_smoke.csv
 venv/
 env/
-results/figures/*.png
-results/figures/*.pdf
-results/tables/*.csv
-results/summaries/*.json
-results/logs/*.log
 data/*.csv
 data/*.parquet
 .DS_Store

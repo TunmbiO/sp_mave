@@ -1,11 +1,20 @@
 """Random Forest proximity computation with K-fold cross-fitting.
 
+Why cross-fitting?
+------------------
+A standard (non-cross-fitted) RF always places each training point in its own
+terminal leaf — the tree was built to fit those points exactly, so self-proximity
+P[i, i] = 1 for every i.  This inflates the anchor's self-weight and distorts the
+neighbourhood structure: anchor j assigns most of its weight budget to itself,
+leaving little for genuine neighbours.  Cross-fitting prevents this by ensuring
+that the RF used to evaluate observation i was trained on data that excluded i.
+
 Cross-fitting procedure
 -----------------------
 Split the n training observations into K folds.  For each fold k:
   1. Train a RandomForestRegressor on the K-1 other folds.
   2. Apply the trained forest to ALL n observations to obtain leaf
-     assignments (n x T matrix, one column per tree).
+     assignments (n × T matrix, one column per tree).
   3. For each held-out observation i in fold k, compute its proximity
      to every other observation j as the fraction of trees in which
      i and j land in the same terminal leaf.

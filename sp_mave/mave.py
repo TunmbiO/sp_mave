@@ -36,8 +36,6 @@ SP-MAVE with RF proximities), the algorithm genuinely iterates because
 the reduced-space local regressions depend on B through the projected
 coordinates B^T (X_i - X_j).
 
-The OPG (one-step full-space) estimator is preserved in ``opg.py`` as a
-separate baseline.
 """
 
 from __future__ import annotations
@@ -69,6 +67,22 @@ class MAVEBase(ABC):
         init_method: str = "pca",
         random_state: int = 42,
     ) -> None:
+        """
+        Parameters
+        ----------
+        d : int
+            Target reduced dimension (number of sufficient directions).
+        max_iters : int
+            Maximum number of alternating minimisation iterations.
+        tol : float
+            Convergence tolerance on the relative change in MAVE loss.
+        ridge_lambda : float
+            Tikhonov regularisation coefficient for the WLS and B-update solves.
+        init_method : str
+            Initialisation strategy for B.  Only "pca" is supported.
+        random_state : int
+            Seed for any internal random operations (not used by PCA init).
+        """
         self.d = d
         self.max_iters = max_iters
         self.tol = tol
@@ -389,6 +403,7 @@ class ClassicalMAVE(MAVEBase):
         If set, truncate to top-k neighbours per anchor after computing
         Gaussian weights.  Weights are re-normalised after truncation.
         When None, all pairwise weights are used (pure Gaussian MAVE).
+        A practical rule is k = floor(0.20 × n).
     """
 
     def __init__(
@@ -415,8 +430,7 @@ class ClassicalMAVE(MAVEBase):
 
     @property
     def method_name(self) -> str:
-        suffix = f"_k{self.k}" if self.k is not None else ""
-        return f"ClassicalMAVE{suffix}"
+        return "ClassicalMAVE_kNN" if self.k is not None else "ClassicalMAVE"
 
     def _compute_weights(
         self, X: np.ndarray, y: np.ndarray, B: np.ndarray
