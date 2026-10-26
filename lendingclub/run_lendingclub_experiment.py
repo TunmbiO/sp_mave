@@ -48,6 +48,7 @@ import argparse
 import csv
 import logging
 import math
+import os
 import sys
 import time
 import traceback
@@ -61,6 +62,7 @@ from sklearn.metrics import roc_auc_score
 from sklearn.model_selection import StratifiedShuffleSplit, train_test_split
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))  # repo root (sp_mave package)
 
 from sp_mave.mave import ClassicalMAVE
 from sp_mave.preprocessing import standardize
@@ -71,7 +73,7 @@ from sp_mave.utils import get_logger
 # Paths
 # ---------------------------------------------------------------------------
 
-DATA_PATH    = Path("/home/tunmbi/data/lendingclub/lendingclub_clean.csv")
+DATA_PATH    = Path(os.environ.get("LENDINGCLUB_DATA", "/home/tunmbi/data/lendingclub/lendingclub_clean.csv"))
 RESULTS_DIR  = Path(__file__).resolve().parent / "results"
 OUT_RESULTS  = RESULTS_DIR / "lendingclub_results.csv"
 OUT_SUMMARY  = RESULTS_DIR / "lendingclub_summary.csv"

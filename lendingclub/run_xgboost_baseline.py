@@ -41,6 +41,7 @@ from sklearn.metrics import roc_auc_score
 from xgboost import XGBClassifier
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))  # repo root (sp_mave package)
 
 from run_lendingclub_experiment import load_data, make_split
 from sp_mave.utils import get_logger

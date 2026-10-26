@@ -43,6 +43,7 @@ from typing import Any
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))  # repo root (sp_mave package)
 
 # Import shared split + evaluator from the main runner — do NOT re-implement.
 from run_lendingclub_experiment import evaluate_binary, load_data, make_split

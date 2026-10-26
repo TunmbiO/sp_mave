@@ -16,6 +16,11 @@ SP-MAVE is a sufficient dimension reduction method that replaces the Gaussian ke
 | `synthetic_n_scaling_v1_summary.csv` | " | " | " | " | " |
 | `synthetic_n_scaling_v1_wilcoxon.csv` | " | " | " | " | " |
 
+| `synthetic_unified_v1.csv` (+ `_summary`, `_wilcoxon`) | Friedman-1 grid, 4 methods (incl. L1MAVE via `run_l1mave_on_friedman1.py`) | see script | | 20 | Feeds fig1-fig3 |
+| `synthetic_dgp_v1.csv` (+ `_summary`, `_wilcoxon`) | Non-axis-aligned (rotated) true-subspace DGPs | see script | | | Feeds fig4-fig5 |
+
+LendingClub results live in [`../lendingclub/results/`](../lendingclub/results/).
+
 ## Key design decisions
 
 - **Fixed k, same for both kNN methods**: `k=20` at n=100; `k=floor(0.20·n)` at n=200,500. This isolates the proximity mechanism (Gaussian distance vs RF proximity) as the sole variable between ClassicalMAVE_kNN and SP-MAVE.
@@ -33,7 +38,10 @@ SP-MAVE improves over kNN-MAVE on Grassmann distance when p/n ≲ 0.25–0.43, w
 |---|---|
 | `run_synthetic_noise_scaling_v3_fixed.py` | `synthetic_noise_scaling_v3_fixed.*` |
 | `run_synthetic_n_scaling_v1.py` | `synthetic_n_scaling_v1.*` |
+| `run_synthetic_unified_v1.py`, `run_l1mave_on_friedman1.py` | `synthetic_unified_v1.*` |
+| `run_synthetic_dgp_v1.py` | `synthetic_dgp_v1.*` |
+| `figures/make_figures.py`, `figures/make_figures_v2.py` | `figures/fig1-fig5` |
 
 ## Next phase
 
-Real dataset experiments. Results will go in `results/real_data/`. Raw datasets are in `data/`.
+Real-data results are written to `results/real_data/` (git-ignored). Bundled datasets are in `data/`.

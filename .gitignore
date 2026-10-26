@@ -26,3 +26,11 @@ data/*.parquet
 .idea/
 .vscode/
 .claude/
+
+# Large / non-reproducible local data (OSAP+CRSP panel ~1.5 GB, WRDS-licensed)
+data/osap/
+# One-off data-download notebook
+oap_data.ipynb
+# Logs and smoke-test outputs anywhere in the tree
+*.log
+*_smoke.csv

@@ -50,99 +50,62 @@ Both methods use the same alternating optimisation structure:
 ## Project Structure
 
 ```
-sp_mave/
-  __init__.py        Package init
-  types.py           DatasetBundle, MAVEResult dataclasses
-  config.py          YAML config loading with defaults and validation
-  datasets.py        Dataset loaders (Friedman-1; extensible registry)
-  preprocessing.py   Standardisation and train/test splitting
-  weights.py         Gaussian kernel weight computation
-  proximities.py     Cross-fitted RF proximity + top-k + softmax
-  mave.py            MAVEBase (shared WLS + OPG) and ClassicalMAVE
-  spmave.py          SPMAVE estimator
-  metrics.py         Subspace distance metrics
-  evaluation.py      Downstream prediction pipeline
-  plots.py           Weight distribution and sanity study figures
-  utils.py           Orthonormalisation, dimension checks, logging
+sp_mave/                Core package (importable: pip install -e .)
+  types.py              DatasetBundle, MAVEResult dataclasses
+  preprocessing.py      Standardisation and train/test splitting
+  weights.py            Gaussian and Laplacian kernel weights
+  proximities.py        Cross-fitted RF proximity + top-k + softmax
+  mave.py               MAVEBase (shared WLS + OPG), ClassicalMAVE, L1MAVE
+  spmave.py             SPMAVE estimator
+  metrics.py            Subspace distance metrics
+  evaluate.py           evaluate_subspace: downstream prediction on B^T X
+  evaluation.py         Downstream prediction pipeline
+  utils.py              Orthonormalisation, dimension checks, logging
 
-configs/
-  default.yaml            Base defaults
-  friedman_dev.yaml       Fast development config
-  friedman_final.yaml     Full experiment config
-  sanity_noise_study.yaml Noise ablation config
+run_synthetic_*.py      Synthetic experiments (Friedman-1 grids, rotated DGPs)
+run_l1mave_on_friedman1.py   Adds L1MAVE to the Friedman-1 grid
+run_real_data_v1.py, run_real_data_v2.py   Real-data benchmarks (data/*.npz)
+run_krr_tuning_robustness.py  Appendix: CV-tuned KRR robustness check
 
-run_experiment.py     Main experiment CLI
-run_sanity_study.py   Noise ablation study CLI
+results/                Canonical result CSVs (see results/README_experiments.md)
+results/figures/        Publication figures (make_figures.py, make_figures_v2.py)
+data/                   Small bundled datasets (.npz / .txt)
+
+lendingclub/            Self-contained LendingClub default-prediction
+                        application, with its own README (see below)
 ```
 
 ## Installation
 
 ```bash
 pip install -r requirements.txt
+pip install -e .          # makes `import sp_mave` work from anywhere
 ```
 
-Requires Python >= 3.10.  Dependencies: numpy, scipy, scikit-learn, matplotlib, pyyaml.
+Requires Python >= 3.9. Core dependencies: numpy, scipy, scikit-learn, pandas.
+Figures additionally need matplotlib.
 
-## Usage
+## Running experiments
 
-### Single experiment
+Each runner is a standalone script; most accept `--smoke-test` for a quick check.
 
 ```bash
-python run_experiment.py --config configs/friedman_dev.yaml
-python run_experiment.py --config configs/friedman_final.yaml
+python run_synthetic_noise_scaling_v3_fixed.py
+python run_synthetic_n_scaling_v1.py
+python run_synthetic_unified_v1.py
+python run_synthetic_dgp_v1.py          # non-axis-aligned (rotated) true subspaces
+python run_real_data_v1.py              # then run_real_data_v2.py (appends)
+python results/figures/make_figures_v2.py
 ```
 
-### Sanity study (0 vs 20 noise features)
+Outputs are written to `results/`. Real-data outputs go to `results/real_data/`,
+which is git-ignored; regenerate them with the runners above.
 
-```bash
-python run_sanity_study.py --config configs/sanity_noise_study.yaml
-```
+## Applications
 
-### Adding a new dataset
-
-1. Write a loader function in `sp_mave/datasets.py`:
-
-```python
-def load_my_dataset(**kwargs) -> DatasetBundle:
-    X, y = ...  # load your data
-    return DatasetBundle(
-        X=X, y=y,
-        feature_names=[...],
-        true_subspace=None,  # or provide if known
-        metadata={"source": "..."},
-    )
-```
-
-2. Register it in the `REGISTRY` dict at the bottom of `datasets.py`:
-
-```python
-REGISTRY["my_dataset"] = load_my_dataset
-```
-
-3. Create a config file referencing it:
-
-```yaml
-dataset:
-  name: my_dataset
-  # any kwargs your loader accepts
-```
-
-4. Run:
-
-```bash
-python run_experiment.py --config configs/my_dataset.yaml
-```
-
-## Outputs
-
-| Path | Contents |
-|------|----------|
-| `results/figures/weight_distributions.png` | Histograms of nonzero weights per method |
-| `results/figures/raw_proximities_SPMAVE.png` | RF proximity distribution before softmax |
-| `results/figures/sanity_noise_study.png` | Metrics vs noise dimension |
-| `results/tables/comparison.csv` | Method comparison table |
-| `results/summaries/experiment_summary.json` | Full results + config |
-| `results/summaries/sanity_study_summary.json` | Sanity study results |
+- **LendingClub loan-default prediction** (binary response, p=94):
+  see [lendingclub/README.md](lendingclub/README.md). It is kept separate from
+  the continuous-response experiments above and reuses only the `sp_mave` package.
 
 ## Evaluation Metrics
 
