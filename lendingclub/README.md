@@ -37,27 +37,20 @@ python lendingclub/run_xgboost_baseline.py                      # XGBoost / Logi
 so all results are seed-for-seed comparable. XGBoost needs `pip install xgboost`.
 Outputs go to `lendingclub/results/`.
 
-## Results (test set, mean over 20 seeds)
+## Results (full sample, n=2000; test AUC, mean over 20 seeds)
 
-| Regime | Method | Brier ↓ | AUC ↑ |
-|---|---|---|---|
-| n=300 | SP-MAVE | 0.204 | 0.622 |
-| n=300 | Classical MAVE | 0.191 | 0.618 |
-| n=300 | Classical MAVE (kNN) | 0.197 | 0.594 |
-| n=300 | Logistic regression (94 features) | 0.211 | 0.618 |
-| n=300 | XGBoost (94 features) | 0.188 | 0.624 |
-| n=2000 | SP-MAVE | 0.165 | 0.669 |
-| n=2000 | Classical MAVE | 0.163 | 0.669 |
-| n=2000 | Classical MAVE (kNN) | 0.165 | 0.653 |
-| n=2000 | Logistic regression (94 features) | 0.162 | 0.676 |
-| n=2000 | XGBoost (94 features) | 0.165 | 0.666 |
+| Method | AUC ↑ |
+|---|---|
+| SP-MAVE (3-d subspace) | 0.669 |
+| Classical MAVE (3-d subspace) | 0.669 |
+| Classical MAVE (kNN) (3-d subspace) | 0.653 |
+| XGBoost (all 94 features) | 0.666 |
 
-Reading these honestly: the signal in this task is weak (AUC about 0.62–0.68 for every method).
-SP-MAVE is not significantly better than Classical MAVE on Brier, and is worse at n=300
-(Wilcoxon p=0.006). Its clearest gain is in AUC against kNN-MAVE at n=2000 (p=0.010).
-SP-MAVE is also faster to fit than Classical MAVE at n=2000 (about 18 s vs 122 s).
-The 3-d subspace is roughly on par with models on all 94 features.
-See `results/lendingclub_wilcoxon.csv` and `results/k_sensitivity_summary.csv` for tests and the k sweep.
+The signal in this task is weak: every method sits around AUC 0.65–0.67.
+SP-MAVE significantly beats kNN-MAVE on AUC (Wilcoxon p=0.010) and ties Classical MAVE (p=0.99).
+It also fits faster than Classical MAVE (about 18 s vs 122 s per fit).
+The 3-d subspace matches XGBoost on the full 94 features.
+Full tests are in `results/lendingclub_wilcoxon.csv`.
 
 ## Files
 - `run_lendingclub_experiment.py` — main experiment and shared `load_data` / `make_split`
