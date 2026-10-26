@@ -39,16 +39,16 @@ Outputs go to `lendingclub/results/`.
 
 ## Results (full sample, n=2000; test AUC, mean over 20 seeds)
 
-| Method | AUC ↑ |
+| Method | AUC ↑ (mean ± SE) |
 |---|---|
-| SP-MAVE (3-d subspace) | 0.669 |
-| Classical MAVE (3-d subspace) | 0.669 |
-| Classical MAVE (kNN) (3-d subspace) | 0.653 |
-| XGBoost (all 94 features) | 0.666 |
+| SP-MAVE (3-d subspace) | 0.669 ± 0.008 |
+| Classical MAVE (3-d subspace) | 0.669 ± 0.009 |
+| Classical MAVE (kNN) (3-d subspace) | 0.653 ± 0.009 |
+| XGBoost (all 94 features) | 0.666 ± 0.007 |
 
 The signal in this task is weak: every method sits around AUC 0.65–0.67.
-SP-MAVE significantly beats kNN-MAVE on AUC (Wilcoxon p=0.010) and ties Classical MAVE (p=0.99).
-It also fits faster than Classical MAVE (about 18 s vs 122 s per fit).
+SP-MAVE significantly beats kNN-MAVE on AUC (Wilcoxon p=0.010) and ties Classical MAVE (p=0.985).
+It also fits faster than Classical MAVE (18.1 ± 1.9 s vs 122.1 ± 35.6 s per fit).
 The 3-d subspace matches XGBoost on the full 94 features.
 Full tests are in `results/lendingclub_wilcoxon.csv`.
 
