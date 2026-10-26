@@ -47,7 +47,7 @@ import numpy as np
 
 from sp_mave.types import MAVEResult
 from sp_mave.utils import check_dimensions, get_logger, orthonormalize
-from sp_mave.weights import gaussian_weights
+from sp_mave.weights import gaussian_weights, laplacian_weights
 
 logger = get_logger(__name__)
 
@@ -441,3 +441,62 @@ class ClassicalMAVE(MAVEBase):
         because the reduced-space local regressions depend on B.
         """
         return gaussian_weights(X, bandwidth=self.bandwidth, k=self.k)
+
+
+# ======================================================================
+# L1-MAVE (Laplacian kernel weights, L1 distance, top-k truncation)
+# ======================================================================
+
+
+class L1MAVE(MAVEBase):
+    """True iterative MAVE with Laplacian kernel weights (L1 distance).
+
+    Weights are w_ij ∝ exp(-||X_i - X_j||_1 / h), top-k truncated per
+    anchor and renormalised — the L1 analogue of ``ClassicalMAVE_kNN``.
+
+    Parameters
+    ----------
+    d : int
+        Target reduced dimension.
+    bandwidth : float or "auto"
+        Laplacian kernel bandwidth.  "auto" uses the median heuristic
+        on L1 pairwise distances.
+    k : int
+        Number of neighbours to retain per anchor (always truncated).
+    """
+
+    def __init__(
+        self,
+        d: int = 1,
+        bandwidth: float | str = "auto",
+        k: int = 20,
+        max_iters: int = 50,
+        tol: float = 1e-6,
+        ridge_lambda: float = 1e-6,
+        init_method: str = "pca",
+        random_state: int = 42,
+    ) -> None:
+        super().__init__(
+            d=d,
+            max_iters=max_iters,
+            tol=tol,
+            ridge_lambda=ridge_lambda,
+            init_method=init_method,
+            random_state=random_state,
+        )
+        self.bandwidth = bandwidth
+        self.k = k
+
+    @property
+    def method_name(self) -> str:
+        return "L1MAVE"
+
+    def _compute_weights(
+        self, X: np.ndarray, y: np.ndarray, B: np.ndarray
+    ) -> np.ndarray:
+        """Laplacian kernel weights in the original feature space.
+
+        These do not depend on B, but the algorithm still iterates
+        because the reduced-space local regressions depend on B.
+        """
+        return laplacian_weights(X, bandwidth=self.bandwidth, k=self.k)
